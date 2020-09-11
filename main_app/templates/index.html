@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tedious Tasks</title>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/purecss@1.0.0/build/pure-min.css"
+      integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+  </head>
+  <body>
+    <h1>Tedious Tasks</h1>
+    {% if widget|length == 0 %}
+    <h3>No Tasks Exist</h3>
+
+    {% else %}
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Time</th>
+          <th>Person</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for w in widget %}
+        <tr>
+          <td>{{w.description}}</td>
+          <td>{{w.time}}</td>
+          <td>{{w.person}}</td>
+          <td id="X">
+            <a id="X" href="{% url 'widget_delete' w.id %}">X</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    <hr />
+    <h4>Add Widget</h4>
+    <form action="{% url 'widgets_create' %}" method="post">
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <input type="submit" value="Add New Widget" class="btn" />
+    </form>
+  </body>
+</html>
